@@ -91,27 +91,3 @@
 
 ![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Database/screens/17.png)
 
-
-
-
-[Linc for cript](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/a.sh)
-
-<details>
-  <summary>Code of script</summary>
-  
-  ```bash
-}
-
-#-----------MAIN SCRIPT----------------#
-
-
-  ```
-  
-</details>
-
-<details>
-  <summary>Screens</summary>
-  
-![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/screens/a1.png)
-  
-</details>
