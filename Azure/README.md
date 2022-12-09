@@ -1,249 +1,39 @@
-# Linux Bash
-   
-### A. Create a script that uses the following keys:
-1. When starting without parameters, it will display a list of possible keys and their description.
-2. The --all key displays the IP addresses and symbolic names of all hosts in the current subnet
-3. The --target key displays a list of open system TCP ports.
-The code that performs the functionality of each of the subtasks must be placed in a separate function
-
-[Linc for cript](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/a.sh)
-
-<details>
-  <summary>Code of script</summary>
-  
-  ```bash
-#!/bin/bash
-
-#TARGET function
-function target(){
-    
-echo "Open ports: "
-ss -nlt | awk 'NR>1{print$4}' | awk -F : '{print$2}' | uniq
-}
-
-#ALL function
-function all(){
-
-echo "Name of host and IP addresses :"
-echo '     IP          Hostname'
-       for  i in  $( ip n |awk '{print$1}')
-do
-echo "$i    $(host $i|awk -F pointer '{print$2}')   $(host $i|awk -F : '{print$2}')"
-done
-}
-
-#NO keys
-function other(){
-
-echo  << EOF ' Please use keys:
- --all       displays the IP addresses and symbolic names of all hosts in the current subnet
- --target    displays a list of open system TCP ports'
-EOF
-}
-
-#-----------MAIN SCRIPT----------------#
-
-case $1 in
-#target case
---target) target
-;;
-#IP case
---all)all
- ;;
-#other  parameters
-*)other
-;;
-
-esac
-  ```
-  
-</details>
-
-<details>
-  <summary>Screens</summary>
-  
-![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/screens/a1.png)
-  
-</details>
-
-### B. Using Apache log example create a script to answer the following questions:
-1. From which ip were the most requests?
-2. What is the most requested page?
-3. How many requests were there from each ip?
-4. What non-existent pages were clients referred to? 
-5. What time did site get the most requests?
-6. What search bots have accessed the site? (UA + IP)
-
-[Linc for cript](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/b.sh)
-
-<details>
-  <summary>Code of script</summary>
-  
-  ```bash
-#!/bin/bash
-
-#-------------3---------
-function  list_ip(){
-echo "Count requests were there from each ip"
-cat $1 | awk '{print$1}'|sort -n|uniq -c|sort -n -r
-}
-#-------------1---------
-function most_ip(){
-max=$(list_ip $1 |awk 'NR==2{print$1}')
-maxip=$(list_ip $1 |awk 'NR==2{print$1}')
-
-echo " The most requested IP: $maxip with $max requests "
-}
-#--------2---------
-function count_pages(){
-awk '{print$7}' $1 |sort -n |uniq -c |sort -n -r
-}
-function most_page(){
-max=$(count_pages $1 |awk 'NR==1{print$1}')
-maxp=$(count_pages $1 |awk 'NR==1{print$2}')
-echo " The most requested page with $max requests is "
-echo $maxp
-}
-#----------4----------
-function nonpages(){
-echo  "There are non-existent pages were clients referred to:"
-echo " "
-awk '($9=="404" ) {print$7}' $1 |sort -n |uniq |sort -n -r
-}
-#---------5---------
-function timelist(){
-cat $1 | awk '{print$4}'|awk -F: '{print$2}' |sort -n| uniq -c|sort -n -r
-}
-function mtime(){
-max=$(timelist $1 |awk 'NR==1{print$1}')
-maxtime=$(timelist $1 |awk 'NR==1{print$2}')
-echo " The most requested time: $maxtime hour with $max requests "
-}
-
-#-----------6-----------
-function acc_site(){
-echo  "There are UA what have accessed the site:"
-awk ' {print$12}' $1 |sort -n |uniq| sed  's/"//g'
-}
-
-#--------other-----------
-
-#NO keys
-function other(){
-
-echo  << EOF ' 
-Usage: b.sh [OPTION]... [FILE]...
-option and pats to file is mandatory
-[OPTION] :
---1 show most requests IP
---2 show the most requested page
---3 count requests from each IP 
---4 non-existent pages were clients referred to 
---5 What time did site get the most requests?
---6 (UA + IP) have accessed the site
---all       displays all previos keys'
- 
-EOF
-}
-
-#-----------MAIN SCRIPT----------------#
-
-case $1 in
-#target case
---1) most_ip $2
-;;
---2) most_page $2
-;;
---3) list_ip $2
-;;
---4) nonpages $2
-;;
---5) mtime $2
-;;
---6) acc_site $2
-;;
-#IP case
---all)
-most_ip $2
-most_page $2
-list_ip $2
-nonpages $2
-mtime $2
-acc_site $2
- ;;
-#other  parameters
-*)other
-;;
-
-esac
-
-  ```
-  
-</details>
-
-<details>
-  <summary>Screens</summary>
-  
-![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/screens/b1.png)
-  
-</details>
-
-### C. Create a data backup script that takes the following data as parameters:
-1. Path to the syncing directory.
-2. The path to the directory where the copies of the files will be stored.
-In case of adding new or deleting old files, the script must add a corresponding entry to the log file indicating the time, type of operation and file name. [The command to run the script must be added to crontab with a run frequency of one minute]
-
-[Linc for cript](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/c.sh)
-
-
-<details>
-  <summary>Code of script</summary>
-  
-  ```bash
-  #!/bin/bash
-
-dir1=$1
-dir2=$2
-function rmold(){
-for i in $(diff $1 $2  |awk -v var="$2:" '(var==$3) {print $4}')
-do
-if [ -f $2/$i  ] ; then
-  if [ $i != "backup.log" ] ; then
-rm  -f $2/$i
-echo "[ $(date) ] delete file $i"  >> $2/backup.log
-   fi
-elif [ -d $2/$i ] ; then
-rm  -r $2/$i
-echo "[ $(date) ] delete directory $i"  >>  $2/backup.log
-fi
-done
-}
-
-function copynew(){
-for i in $(diff $1 $2  |awk -v var="$1:" '(var==$3) {print $4}')
-do
-if [ -f $1/$i ] ; then
-cp $1/$i $2
-echo "[ $(date) ] create file $i"  >> $2/backup.log
-elif  [ -d $1/$i ] ; then
-cp -r $1/$i $2
-echo "[ $(date) ] create directory $i"   >> $2/backup.log
-fi
-done
-}
-
-copynew $dir1 $dir2
-rmold $dir1 $dir2
-
-  ```
-  
-</details>
-
-
-
-<details>
-  <summary>Screens</summary>
-  
-![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/screens/c1.png)
-  
-</details>
+# Azure
+## Part 1 – Configure application
+	•	Create a service connection in a Azure DevOps project to your subscription - https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml
+	•	Find a .net pet project for the experiments
+	•	Build your app locally .net project via dotnet tool. dotnet restore/build/run
+	•	Create an Azure DevOps repo - https://learn.microsoft.com/en-us/azure/devops/repos/git/create-new-repo?view=azure-devops  You can use import repository to import from existing source control version like github
+	•	Create a branching policy for you application. Added yourself as a reviewer - https://learn.microsoft.com/en-us/azure/devops/repos/git/branch-policies?view=azure-devops&tabs=browser As branching strategy use a github flow (It will be applied by default when you strict commit to your main branch)
+## Part 2 – Configure a pipeline to deploy infrastructure 
+Below is describing on how to do it via terraform. If you want to use terraform you need to create service connection in manual way. Otherwise you won’t be able to deploy your iac – Navigate to the last section
+Terraform storage account 
+	•	Create a separate resource group and deploy azure storage account - https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal
+	•	Create a container with the name “tfstate” and remember the name. use portal settings  
+In this storage account you will be store your tf state file
+Terraform preparation
+	•	Create another repo to store devops code
+	•	Create a folder terraform
+	•	Add app service implementation - https://learn.microsoft.com/en-us/azure/app-service/provision-resource-terraform 
+	•	Integrate application insights with app service
+	•	Updated backend “azurerm” according to the guide - https://learn.microsoft.com/en-us/azure/developer/terraform/store-state-in-azure-storage?tabs=azure-cli 
+	•	Run az login or Connect-AzAccount to connect the azure subscription from your local
+	•	Run terraform apply to deploy infrastructure 
+Important note: Use only freshest version of tf module like https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app
+Important note: Don’t forget to destroy your application once completed
+Create a terraform pipeline
+	•	Create a yaml pipeline with the following steps: terraform install, terraform init, terraform plan/apply. Plan is an optional one 
+	•	Inside yaml pipeline add trigger to main branch. The scenario – when main is updated, pipeline should run automatically - https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/trigger?view=azure-pipelines
+	•	Added 3 steps – terraform install, terraform init, terraform plan/apply. Plan is an optional one. You may add it as 4th step
+## Part 3 – Create a deploy pipeline to app service
+	•	Add yml pipeline to the application folder
+	•	Your pipeline structure should contain 2 stages. 1st – build, create zip archieve, and publish an artifact. 2nd – download an artifact and deploy it to azure app service 
+	•	To deploy .zip to app service use azure app service deployment task
+Service connection – manual way
+https://4bes.nl/2019/07/11/step-by-step-manually-create-an-azure-devops-service-connection-to-azure/
+Don’t forget to grant access on the subscription level for your enterprise application (service principal)
+Useful readings 
+	•	How to share variables 
+	•	Templates example for variables - https://learn.microsoft.com/en-us/samples/azure-samples/azure-pipelines-variable-templates/azure-pipelines-variable-templates/
+	•	Good example how to do a pipeline to build .net app and deplot tf iac - https://azuredevopslabs.com/labs/vstsextend/terraform/ Only via UI. Hence don’t forget about view yaml button in UI
+	•	Example of the Angular application from lecture 2 - https://epam-my.sharepoint.com/:u:/p/yevhen_husiev/EWXdflfwT7pBijqGNXZnvRgBRdpB_EXlN0cJy8_SFA6_eA?e=Fc3LQW password – AQ!sw2DE£fr4
