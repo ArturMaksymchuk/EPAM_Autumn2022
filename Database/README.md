@@ -85,9 +85,15 @@
 
 ### 18. Create a collection. Use db.createCollection to create a collection. I'll leave the subject up to you. Run show dbs and show collections to view your database andcollections.
 
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Database/screens/17.png)
+
 ### 19. Create some documents. Insert a couple of documents into your collection. I'll leave the subject matter up to you, perhaps cars or hats.
+
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Database/screens/18.1.png)
+
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Database/screens/18.2.png)
 
 ### 20. Use find() to list documents out.
 
-![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Database/screens/17.png)
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Database/screens/19.png)
 
