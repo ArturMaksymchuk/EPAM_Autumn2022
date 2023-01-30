@@ -1,6 +1,4 @@
 
-
-
 #AWS Cloud Basic
 
 1. Read the terms of Using the AWS Free Tier and the ability to control their own costs.
@@ -17,6 +15,15 @@ Practitioner.
 7. Review Getting Started with Amazon EC2. Log Into Your AWS Account, Launch, Configure, Connect
 and Terminate Your Instance. Do not use Amazon Lightsail. It is recommended to use the t2 or
 t3.micro instance and the CentOS operating system.
+
+<details>
+  <summary>Screens</summary>
+  
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/screens/a1.png)
+  
+</details>
+
+
 8. Create a snapshot of your instance to keep as a backup.
 9. Create and attach a Disk_D (EBS) to your instance to add more storage space. Create and save
 some file on Disk_D.
@@ -32,6 +39,19 @@ Create a user AWS IAM, configure CLI AWS and upload any files to S3.
 16. Review the 10-minute example Deploy Docker Containers on Amazon Elastic Container Service
 (Amazon ECS). Repeat, create a cluster, and run the online demo application or better other
 application with custom settings.
+
+<details>
+  <summary>Screens</summary>
+  
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/screens/a1.png)
+  
+</details>
 17. Run a Serverless "Hello, World!" with AWS Lambda.
+<details>
+  <summary>Screens</summary>
+  
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/screens/a1.png)
+  
+</details>
 18. Create a static website on Amazon S3, publicly available (link1 or link2 - using a custom domain
 registered with Route 53). Post on the page your own photo, the name of the educational program (EPAM Cloud&DevOps Fundamentals Autumn 2022), the list of AWS services with which the student worked within the educational program or earlier and the full list with links of completed labs (based on tutorials or qwiklabs). Provide the link to the website in your report and СV.
