@@ -139,4 +139,11 @@ application with custom settings.
 18. Create a static website on Amazon S3, publicly available (link1 or link2 - using a custom domain
 registered with Route 53). Post on the page your own photo, the name of the educational program (EPAM Cloud&DevOps Fundamentals Autumn 2022), the list of AWS services with which the student worked within the educational program or earlier and the full list with links of completed labs (based on tutorials or qwiklabs). Provide the link to the website in your report and СV.
 
-[Linc for CV](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/LinuxBash/b.sh)
+<details>
+  <summary>Screens</summary>
+  
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/AWS/screens/18.1.png)
+
+</details>
+
+[Linc for CV](http://cvsiteartur.s3-website.eu-central-1.amazonaws.com/)
