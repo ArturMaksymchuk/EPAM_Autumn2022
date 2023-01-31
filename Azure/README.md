@@ -1,10 +1,13 @@
 # Azure
-## Part 1 – Configure application
-Create a service connection in a Azure DevOps project to your subscription - https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml
+## Part 1 – Configure application:
+### - Create a service connection in a Azure DevOps project to your subscription 
 
-Find a .net pet project for the experiments
 
-Build your app locally .net project via dotnet tool. dotnet restore/build/run
+### - Find a .net pet project for the experiments
+
+[Linc for project](https://github.com/adamajammary/simple-web-app-mvc-dotnet.git)
+
+### -Build your app locally .net project via dotnet tool. dotnet restore/build/run
 <details>
   <summary>Screens</summary>
   
@@ -12,8 +15,8 @@ Build your app locally .net project via dotnet tool. dotnet restore/build/run
 
 </details>
 
-Create an Azure DevOps repo - https://learn.microsoft.com/en-us/azure/devops/repos/git/create-new-repo?view=azure-devops  
-You can use import repository to import from existing source control version like github
+### - Create an Azure DevOps repo.  
+
 
 <details>
   <summary>Screens</summary>
@@ -22,15 +25,29 @@ You can use import repository to import from existing source control version lik
 
 </details>
 
-Create a branching policy for you application. Added yourself as a reviewer - https://learn.microsoft.com/en-us/azure/devops/repos/git/branch-policies?view=azure-devops&tabs=browser 
-As branching strategy use a github flow (It will be applied by default when you strict commit to your main branch)
+### - Create a branching policy for you application. Added yourself as a reviewer
+### As branching strategy use a github flow (It will be applied by default when you strict commit to your main branch)
+
+<details>
+  <summary>Screens</summary>
+  
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Azure/screens/2.1.png)
+
+</details>
 
 
 ## Part 2 – Configure a pipeline to deploy infrastructure 
-Below is describing on how to do it via terraform. If you want to use terraform you need to create service connection in manual way. Otherwise you won’t be able to deploy your iac – Navigate to the last section
-Terraform storage account 
+Below is describing on how to do it via terraform. If you want to use terraform you need to create service connection in manual way. Otherwise you won’t be able to deploy your iac – Navigate to the last section Terraform storage account 
 	•	Create a separate resource group and deploy azure storage account - https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal
 	•	Create a container with the name “tfstate” and remember the name. use portal settings  
+
+	<details>
+  <summary>Screens</summary>
+  
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Azure/screens/2.1.png)
+
+</details>
+
 In this storage account you will be store your tf state file
 Terraform preparation
 	•	Create another repo to store devops code
@@ -46,6 +63,9 @@ Create a terraform pipeline
 	•	Create a yaml pipeline with the following steps: terraform install, terraform init, terraform plan/apply. Plan is an optional one 
 	•	Inside yaml pipeline add trigger to main branch. The scenario – when main is updated, pipeline should run automatically - https://learn.microsoft.com/en-us/azure/devops/pipelines/yaml-schema/trigger?view=azure-pipelines
 	•	Added 3 steps – terraform install, terraform init, terraform plan/apply. Plan is an optional one. You may add it as 4th step
+
+
+
 ## Part 3 – Create a deploy pipeline to app service
 	•	Add yml pipeline to the application folder
 	•	Your pipeline structure should contain 2 stages. 1st – build, create zip archieve, and publish an artifact. 2nd – download an artifact and deploy it to azure app service 
