@@ -44,12 +44,11 @@
 <details>
   <summary>Screens</summary>
   
-![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Azure/screens/1.1.png)
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Azure/screens/2.1.png)
 
 </details>
 
-### In this storage account you will be store your tf state file
-### Terraform preparation
+### In this storage account you will be store your tf state file Terraform preparation
 
 ##### - Create another repo to store devops code
 
