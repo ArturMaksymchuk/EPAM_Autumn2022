@@ -3,8 +3,25 @@
 	•	Create a service connection in a Azure DevOps project to your subscription - https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml
 	•	Find a .net pet project for the experiments
 	•	Build your app locally .net project via dotnet tool. dotnet restore/build/run
+<details>
+  <summary>Screens</summary>
+  
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Azure/screens/1.1.png)
+
+</details>
+
 	•	Create an Azure DevOps repo - https://learn.microsoft.com/en-us/azure/devops/repos/git/create-new-repo?view=azure-devops  You can use import repository to import from existing source control version like github
+
+<details>
+  <summary>Screens</summary>
+  
+![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Azure/screens/1.2.png)
+
+</details>
+
 	•	Create a branching policy for you application. Added yourself as a reviewer - https://learn.microsoft.com/en-us/azure/devops/repos/git/branch-policies?view=azure-devops&tabs=browser As branching strategy use a github flow (It will be applied by default when you strict commit to your main branch)
+
+
 ## Part 2 – Configure a pipeline to deploy infrastructure 
 Below is describing on how to do it via terraform. If you want to use terraform you need to create service connection in manual way. Otherwise you won’t be able to deploy your iac – Navigate to the last section
 Terraform storage account 
