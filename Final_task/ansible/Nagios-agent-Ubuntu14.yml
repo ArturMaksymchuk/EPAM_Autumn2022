@@ -1,0 +1,253 @@
+---
+##############################################
+##                                          ##
+##       Installing The Nagios NRPE         ##
+##                                          ##
+##############################################
+
+- name: Instal Nagios NRPE and Nagios plugin
+  hosts: Agent-ubuntu14
+  become: true
+
+# Prerequisites
+
+  tasks:
+  - name: apt-get update
+    apt:
+      update_cache: yes
+
+  - name: install Requirements
+    apt:
+      pkg:
+      - autoconf
+      - automake
+      - gcc
+      - libc6
+      - libmcrypt-dev
+      - libssl-dev
+      - make
+      - wget
+      - bc
+      - dc
+      - gawk
+      - build-essential
+      - snmp
+      - libnet-snmp-perl
+      - gettext
+      - openssl
+      - python3
+      - python3-apt
+      state: present
+
+# sudo apt-get install -y autoconf gcc libc6 libmcrypt-dev make libssl-dev wget bc gawk dc build-essential snmp libnet-snmp-perl gettext
+
+
+#  Downloading The Source
+  - name: download sources nrpe-4.1.0.tar.gz
+    unarchive: 
+      src: https://github.com/NagiosEnterprises/nrpe/archive/nrpe-4.1.0.tar.gz
+      dest: /tmp/
+      remote_src: yes
+
+#  -name: unzip nrpe-4.1.0.tar.gz
+
+#cd /tmp
+#wget --no-check-certificate -O nrpe.tar.gz https://github.com/NagiosEnterprises/nrpe/archive/nrpe-4.1.0.tar.gz
+#tar xzf nrpe.tar.gz
+
+#   Compile
+
+  - name: Configure NRPE
+    command: /tmp/nrpe-nrpe-4.1.0/configure --enable-command-args --with-ssl-lib=/usr/lib/x86_64-linux-gnu/
+    args:
+      chdir: /tmp/nrpe-nrpe-4.1.0/
+
+    
+
+#cd /tmp/nrpe-nrpe-4.1.0/
+#sudo ./configure --enable-command-args --with-ssl-lib=/usr/lib/x86_64-linux-gnu/
+#sudo make all
+
+  - name: Compile NRPE
+    command: "{{ item }}"
+    args:
+      chdir: /tmp/nrpe-nrpe-4.1.0/
+    with_items:
+      - make all
+      - make install-groups-users
+      - make install
+      - make install-config
+    
+
+#Create User And Group
+
+#sudo make install-groups-users
+
+
+# Install Binaries
+
+#sudo make install
+
+# Install Configuration Files
+
+#sudo make install-config
+
+
+#--------------------------------------
+
+# Update Services File
+
+#sudo sh -c "echo >> /etc/services"
+#sudo sh -c "sudo echo '# Nagios services' >> /etc/services"
+#sudo sh -c "sudo echo 'nrpe    5666/tcp' >> /etc/services"
+
+  - name: Update Services File
+    ansible.builtin.lineinfile:
+      path: /etc/services
+      line: "{{ item }}"
+    with_items:
+      - ' '     
+      - '# Nagios services'
+      - 'nrpe    5666/tcp'
+
+
+# Install Service / Daemon
+
+#sudo make install-init
+  - name: Install Service / Daemon
+    command: make install-init
+    args:
+      chdir: /tmp/nrpe-nrpe-4.1.0
+
+# sudo systemctl enable nrpe.service
+
+
+# Configure Firewall
+
+
+#sudo mkdir -p /etc/ufw/applications.d
+
+  - name: Create a directory /etc/ufw/applications.d
+    ansible.builtin.file:
+      path: /etc/ufw/applications.d
+      state: directory
+      mode: '0755'
+
+#sudo sh -c "echo '[NRPE]' > /etc/ufw/applications.d/nagios"
+#sudo sh -c "echo 'title=Nagios Remote Plugin Executor' >> /etc/ufw/applications.d/nagios"
+#sudo sh -c "echo 'description=Allows remote execution of Nagios plugins' >> /etc/ufw/applications.d/nagios"
+#sudo sh -c "echo 'ports=5666/tcp' >> /etc/ufw/applications.d/nagios"
+
+  - name: Configure Firewall
+    ansible.builtin.lineinfile:
+      path: /etc/ufw/applications.d/nagios
+      create: yes
+      line: "{{ item }}"
+      state: present
+    with_items:
+      -  ' '    
+      - '[NRPE]'
+      - 'title=Nagios Remote Plugin Executor'
+      - 'description=Allows remote execution of Nagios plugins'
+      - 'ports=5666/tcp'
+
+
+#sudo ufw allow NRPE
+
+  - name: Allow ufw  NRPE
+    ufw:
+      rule: allow
+      name: nrpe
+
+#sudo ufw reload
+
+  - name: reload  UFW
+    ufw:
+      state: reloaded
+
+
+# Update Configuration File
+
+#sudo sh -c "sed -i '/^allowed_hosts=/s/$/,10.26.0.158/' /usr/local/nagios/etc/nrpe.cfg"
+
+  - name: Add Nagios server to /usr/local/nagios/etc/nrpe.cfg
+    ansible.builtin.lineinfile:
+      path: /usr/local/nagios/etc/nrpe.cfg
+      regexp: '^allowed_hosts=127.0.0.1'
+      line: 'allowed_hosts=127.0.0.1,10.26.0.0/24'
+
+
+
+#sudo sh -c "sed -i 's/^dont_blame_nrpe=.*/dont_blame_nrpe=1/g' /usr/local/nagios/etc/nrpe.cfg"
+
+  - name: Add Nagios server to /usr/local/nagios/etc/nrpe.cfg
+    ansible.builtin.lineinfile:
+      path: /usr/local/nagios/etc/nrpe.cfg
+      regexp: '^dont_blame_nrpe='
+      line: 'dont_blame_nrpe=1'
+
+
+# Start Service / Daemon
+
+#sudo start nrpe
+
+  - name: Start  nrpe
+    command: start nrpe
+
+
+#Test NRPE
+
+#/usr/local/nagios/libexec/check_nrpe -H 127.0.0.1
+
+
+
+##############################################
+##                                          ##
+##       Installing The Nagios Plugins      ##
+##                                          ##
+##############################################
+
+
+
+##===== Ubuntu14 =====
+
+
+#sudo apt-get install -y autoconf gcc libc6 libmcrypt-dev make libssl-dev wget bc gawk dc build-essential snmp libnet-snmp-perl gettext
+# add in top
+
+
+#  Downloading The Source
+
+  - name: download sources Nagios Plugins
+    unarchive: 
+      src: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
+      dest: /tmp/
+      remote_src: yes
+
+#cd /tmp
+#wget --no-check-certificate -O nagios-plugins.tar.gz https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
+#tar zxf nagios-plugins.tar.gz
+
+ 
+#   Compile + Install
+
+  - name: Compile Nagios Plugins
+    command: "{{ item }}"
+    args:
+      chdir: /tmp/nagios-plugins-release-2.3.3/
+    with_items:
+      - ./tools/setup
+      - ./configure
+      - make 
+      - make install
+
+
+
+
+cd /tmp/nagios-plugins-release-2.3.3/
+sudo ./tools/setup
+sudo ./configure
+sudo make
+sudo make install
+
+/usr/local/nagios/libexec/check_nrpe -H 127.0.0.1

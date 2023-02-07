@@ -1,12 +1,6 @@
-
 variable "instance_type" {
         default = "t2.micro"
 }
-
-# variable "subnet_id" {
-#         description = "The VPC subnet the instance(s) will be created in"
-#         default = "subnet-07ebbe60"
-# }
 
 variable "ami_id" {
         description = "The AMI of ubuntu20"
@@ -18,4 +12,14 @@ variable "number_of_instances" {
         default = 1
 }
 
+variable "associate_public_ip_address" {
+  description = "Whether to associate a public IP address with an instance in a VPC"
+  type        = bool
+  default     = true
+}
 
+variable "key_name" {
+  description = "Key name of the Key Pair to use for the instance; which can be managed using the `aws_key_pair` resource"
+  type        = string
+  default     = "aws-app"
+}
