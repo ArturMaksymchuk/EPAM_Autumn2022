@@ -8,3 +8,5 @@ Final_task/terraform/.terraform
 Final_task/terraform/terraform.tfstate
 Final_task/terraform/.terraform.tfstate.lock.info
 Final_task/terraform/terraform.tfstate.backup
+
+Final_task/ansible/keys
