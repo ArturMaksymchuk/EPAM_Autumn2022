@@ -10,7 +10,7 @@ variable "subnet_id" {
 
 variable "ami_id" {
         description = "The AMI of ubuntu20"
-        default = "ami-0778521d914d23bc1"
+        default = "ami-076bdd070268f9b8d"
 }
 
 variable "number_of_instances" {
