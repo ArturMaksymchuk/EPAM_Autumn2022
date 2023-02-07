@@ -1,42 +1,15 @@
 
-
-[g_app]
-
-
-[g_db]
-
-
-[g_balancer]
-
-[g_nagios]
-
-[g_All:children]
+[app]
 app
-db
-g_balancer
-g_nagios
+
+[jenkins]
+Jenkins
 
 
-[Agent-ubuntu14]
+[All:children]
+app
+Jenkins
 
 
-
-app1       ansible_host=10.26.0.153 ansible_connection=ssh ansible_ssh_user=artur ansible_ssh_pass=Artur1202 ansible_sudo_pass=Artur1202
-app2       ansible_host=10.26.0.154 ansible_connection=ssh ansible_ssh_user=artur ansible_ssh_pass=Artur1202 ansible_sudo_pass=Artur1202
-balancer   ansible_host=10.26.0.155 ansible_connection=ssh ansible_ssh_user=artur ansible_ssh_pass=Artur1202 ansible_sudo_pass=Artur1202
-db         ansible_host=10.26.0.165 ansible_connection=ssh ansible_ssh_user=artur ansible_ssh_pass=Artur1202 ansible_sudo_pass=Artur1202
-monitoring ansible_host=10.26.0.157 ansible_connection=ssh ansible_ssh_user=root  ansible_ssh_pass=Artur1202 ansible_sudo_pass=Artur1202
-
-*
-fatal: [balancer]: FAILED! => 
-{"ansible_facts": {}, "changed": false, "failed_modules": 
-        {"setup": 
-            {"ansible_facts": 
-                {"discovered_interpreter_python": "/usr/libexec/platform-python"}, 
-            "failed": true, "module_stderr": "Shared connection to 10.26.0.155 closed.\r\n",
-            "module_stdout": "\r\nartur is not in the sudoers file.  
-            This incident will be reported.\r\n", "msg": "MODULE FAILURE\nSee stdout/stderr for the exact error", "rc": 1
-            }
-        },
-"msg": "The following modules failed to execute: setup\n"
-}
+app       ansible_host=10.26.0.153 ansible_connection=ssh ansible_ssh_user=ubuntu ansible_ssh_pass=Artur1202 ansible_sudo_pass=Artur1202
+Jenkins   ansible_host=10.26.0.154 ansible_connection=ssh ansible_ssh_user=ubuntu ansible_ssh_pass=Artur1202 ansible_sudo_pass=Artur1202
