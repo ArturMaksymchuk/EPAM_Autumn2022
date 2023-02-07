@@ -1,21 +1,25 @@
-variable "elasticapp" {
-  default = "my92five"
-}
-variable "beanstalkappenv" {
-  default = "my92fiveenv"
+
+variable "instance_type" {
+        default = "t2.micro"
 }
 
- variable "tier" {
-  default = "WebServer"
+variable "subnet_id" {
+        description = "The VPC subnet the instance(s) will be created in"
+        default = "subnet-07ebbe60"
 }
 
- variable "solution_stack_name" {
-  default = "64bit Amazon Linux 2018.03 v2.9.11 running PHP 5.4"
+variable "ami_id" {
+        description = "The AMI of ubuntu20"
+        default = "ami-0778521d914d23bc1"
+}
+
+variable "number_of_instances" {
+        description = "number of instances to be created"
+        default = 1
 }
 
 
-variable "vpc_id" {
-   default = "vpc-0832dbef0de3818d6"
+variable "ami_key_pair_name" {
+        default = "aws-marturi"
 }
-variable "public_subnets" {}
-variable "elb_public_subnets" {}
+
