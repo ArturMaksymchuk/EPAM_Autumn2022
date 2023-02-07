@@ -1,3 +1,6 @@
 
 # add provider file
 Final_task/terraform/provider.tf
+
+Final_task/terraform/.terraform.lock.hcl
+Final_task/terraform/.terraform
