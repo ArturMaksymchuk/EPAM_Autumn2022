@@ -1,9 +1,9 @@
 
-FROM java
+FROM eclipse-temurin:19.0.2_7-jre-focal
+RUN mkdir /opt/app
+COPY spring-petclinic-3.0.jar /opt/app/japp.jar
+
+CMD ["java", "-jar", "/opt/app/japp.jar"]
 
 
-
-git clone https://github.com/spring-projects/spring-petclinic.git
-cd spring-petclinic
-./mvnw package
-java -jar target/*.jar
+ EXPOSE 8080
