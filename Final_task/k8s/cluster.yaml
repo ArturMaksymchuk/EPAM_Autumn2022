@@ -1,21 +1,60 @@
-apiVersion: apps/v1
+apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: clinic-autoscaling
   labels:
-    app: nginx
+    app : my-app-dep
 spec:
-  replicas: 3
   selector:
     matchLabels:
-      app: nginx
+      project: clinic
   template:
     metadata:
       labels:
-        app: nginx
+        project: clinic   # Service will look for those PODS Labels!!!
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.14.2
-        ports:
-        - containerPort: 80
+        - name : clinic-app
+          image: adv4000/k8sphp:latest
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: myapp-autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-web-deployment-autoscaling
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageUtilization: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-autoscaling-pod-service
+  labels:
+     env  : prod
+     owner: DenisAstahov
+spec:
+  selector:
+    project: clinic      # Selecting PODs with those Labels
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 8080  # Port on Load Balancer
+      targetPort: 8080  # Port on Pod
+  type: LoadBalancer
