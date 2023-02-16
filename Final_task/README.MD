@@ -5,4 +5,7 @@ Aplication for project forked and configuration for deploy.
 https://github.com/ArturMaksymchuk/SpringBoot-Pet-Clinic
 
 
-scheme of the program
+Working scheme of the application
+
+
+

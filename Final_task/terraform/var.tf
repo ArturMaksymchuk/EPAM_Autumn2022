@@ -3,8 +3,8 @@ variable "instance_type" {
 }
 
 variable "ami_id" {
-        description = "The AMI of ubuntu20"
-        default = "ami-076bdd070268f9b8d"
+        description = "The AMI of AWS instance"
+        default = "ami-0c0d3776ef525d5dd"
 }
 
 variable "number_of_instances" {
