@@ -3,7 +3,7 @@
 
 ## Aplication for project forked and configuration for deploy.
 
-https://github.com/ArturMaksymchuk/SpringBoot### - Pet### - Clinic
+https://github.com/ArturMaksymchuk/SpringBoot-Pet-Clinic.git 
 
 ## It is aplication with technologies:
 ### -  java
