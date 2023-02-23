@@ -25,4 +25,3 @@ Technologies for deploy:
 Working scheme of the application
 
 ![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Final_task/screens/2.png)
-![](https://github.com/ArturMaksymchuk/EPAM_Autumn2022/blob/master/Final_task/screens/3.png)
